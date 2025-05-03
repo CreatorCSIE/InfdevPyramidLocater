@@ -12,7 +12,7 @@
 ## Releases
 * Just download from the [Releases](https://github.com/CreatorCSIE/InfdevPyramidLocater/releases).
 
-* Run this program by left clicks.
+* Run **BrickLocater.exe** by left clicks.
 
 ## Build
 Just download the source code, or use git clone.
