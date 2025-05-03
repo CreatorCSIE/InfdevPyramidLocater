@@ -31,9 +31,11 @@ public class PyramidLocator {
 
                 double distance = Math.hypot(centerX - inputX, centerZ - inputZ);
                 if (distance < minDistance) {
+                    if (centerX >= 0 && centerZ >= 0 && centerX <= 33554432 && centerZ <= 33554432) {
                         minDistance = distance;
                         nearestX = centerX;
                         nearestZ = centerZ;
+                    }
                 }
             }
         }
