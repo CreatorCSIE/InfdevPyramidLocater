@@ -60,6 +60,7 @@ int main() {
     cin >> inputZ_str;
     if (!isValidInput(inputX_str) || !isValidInput(inputZ_str)) {
         cout << "输入无效！请输入一个合法的整数！\n";
+	system("pause");
         return 0;
     }
 
@@ -103,7 +104,7 @@ int main() {
         cout << "未找到符合条件的金字塔中心。\n";
     }
 
-	system("pause");
+    system("pause");
 	
     return 0;
 }
