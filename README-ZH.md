@@ -10,7 +10,7 @@
 # 已发布版本
 * 在[Releases](https://github.com/CreatorCSIE/InfdevPyramidLocater/releases)下载已发布的版本。
 
-* 用`java -jar BrickLocater.jar`运行此程序
+* 在命令提示符下用`java -jar BrickLocater.jar`运行此程序
 
 # 构建
 下载这个项目的源代码（用git clone也可以），然后使用eclipse、IntelliJ IDEA等软件编译即可。
