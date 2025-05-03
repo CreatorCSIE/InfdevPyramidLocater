@@ -43,8 +43,7 @@ bool isValidInput(const std::string& input) {
     std::stringstream ss(input);
     int num;
     ss >> num;
-    // 检查输入是否成功并且数字在 int 范围内
-    return !ss.fail() && ss.eof() && num <= std::numeric_limits<int>::max() && num >= std::numeric_limits<int>::min();
+    return !ss.fail() && ss.eof() && num <= 33554432 && num >= 0;
 }
 
 int main() {
@@ -56,14 +55,10 @@ int main() {
     // 获取用户输入
     cout << "请输入 X 坐标: ";
     cin >> inputX_str;
-    if (!isValidInput(inputX_str)) {
-        cout << "输入无效！请输入一个合法的整数！\n";
-        return 0;
-    }
-
+    
     cout << "请输入 Z 坐标: ";
     cin >> inputZ_str;
-    if (!isValidInput(inputZ_str)) {
+    if (!isValidInput(inputX_str) || !isValidInput(inputZ_str)) {
         cout << "输入无效！请输入一个合法的整数！\n";
         return 0;
     }
