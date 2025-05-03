@@ -1,6 +1,6 @@
 # [English](README.md) [中文](README-ZH.md)
 
-# InfdevPyramidLocater - Made by HawkCSIE
+# InfdevPyramidLocater - Made by CreatorCSIE
 
 **A way to find Minecraft Infdev Brick Pyramids with a simple algorithm.**
 
