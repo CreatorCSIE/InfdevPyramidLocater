@@ -1,4 +1,5 @@
-import os
+import tkinter as tk
+from tkinter import messagebox
 
 class JavaRandom:
     def __init__(self, seed):
@@ -20,10 +21,7 @@ class JavaRandom:
 def is_valid_input(input_str):
     try:
         num = int(input_str)
-        # 检查是否在合法范围内
-        if num > 33554432 or num < 0:
-            return False
-        return True
+        return -2147483648 <= num <= 2147483647
     except ValueError:
         return False
 
@@ -51,18 +49,48 @@ def find_nearest_pyramid(x, z):
                 nearestX, nearestZ = centerX, centerZ
 
     if min_distance < float('inf'):
-        print(f"最近的砖块金字塔中心坐标是: ({nearestX}, {nearestZ})")
+        return f"最近的砖块金字塔中心坐标是: ({nearestX}, {nearestZ})"
     else:
-        print("未找到符合条件的金字塔中心。")
+        return "未找到符合条件的金字塔中心。"
 
-# 获取用户输入并验证
-x = input("请输入 X 坐标: ")
-if not is_valid_input(x):
-    print("输入无效！请输入一个合法的整数！")
-else:
-    z = input("请输入 Z 坐标: ")
-    if not is_valid_input(z):
-        print("输入无效！请输入一个合法的整数！")
-    else:
-        find_nearest_pyramid(int(x), int(z))
-os.system("pause")
+def on_calculate():
+    x = entry_x.get().strip()
+    z = entry_z.get().strip()
+
+    if not is_valid_input(x) or not is_valid_input(z):
+        messagebox.showerror("错误", "请输入合法的整数坐标！")
+        return
+
+    result = find_nearest_pyramid(int(x), int(z))
+    result_area.config(state=tk.NORMAL)
+    result_area.delete(1.0, tk.END)
+    result_area.insert(tk.END, result + "\n")
+    result_area.config(state=tk.DISABLED)
+
+# GUI 构建
+root = tk.Tk()
+root.title("Minecraft Infdev砖块金字塔中心坐标查找器")
+root.geometry("500x300")
+
+# 输入框
+frame_input = tk.Frame(root)
+tk.Label(frame_input, text="X 坐标:").grid(row=0, column=0, padx=5, pady=5)
+entry_x = tk.Entry(frame_input)
+entry_x.grid(row=0, column=1, padx=5)
+
+tk.Label(frame_input, text="Z 坐标:").grid(row=1, column=0, padx=5, pady=5)
+entry_z = tk.Entry(frame_input)
+entry_z.grid(row=1, column=1, padx=5)
+
+frame_input.pack(pady=10)
+
+# 按钮
+btn_calc = tk.Button(root, text="计算", command=on_calculate)
+btn_calc.pack()
+
+# 结果输出
+result_area = tk.Text(root, height=8, width=45, state=tk.DISABLED)
+result_area.pack(pady=10)
+
+# 启动主循环
+root.mainloop()
