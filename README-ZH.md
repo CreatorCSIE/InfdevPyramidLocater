@@ -5,7 +5,7 @@
 **一种使用简单算法计算出Minecraft Infdev砖块金字塔坐标的方式。**
 
 # 适用范围
-**Minecraft Infdev** `2010-2-27`~ `2010-3-25`
+* **Minecraft Infdev** `2010-2-27`~ `2010-3-25`
 
 # 已发布版本
 * 在[Releases](https://github.com/CreatorCSIE/InfdevPyramidLocater/releases)下载已发布的版本。
