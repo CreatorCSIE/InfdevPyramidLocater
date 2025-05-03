@@ -12,7 +12,7 @@
 # 已发布版本
 * 在[Releases](https://github.com/CreatorCSIE/InfdevPyramidLocater/releases)下载已发布的版本。
 
-* 左键运行此程序（exe）
+* 双击左键运行此程序（exe）
 
 # 构建
 下载这个项目的源代码（用git clone也可以），然后使用Visual Studio等IDE编译即可。
