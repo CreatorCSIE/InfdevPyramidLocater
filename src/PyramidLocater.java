@@ -7,7 +7,7 @@ public class PyramidLocator {
         try {
             int num = Integer.parseInt(input);
             // 检查是否在合法范围内
-            return num <= Integer.MAX_VALUE && num >= Integer.MIN_VALUE;
+            return num >= 0 && num <= 33554432;
         } catch (NumberFormatException e) {
             return false;
         }
