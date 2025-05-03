@@ -4,6 +4,9 @@
 
 **A way to find Minecraft Infdev Brick Pyramids with a simple algorithm.**
 
+# Available in these versions
+* **Minecraft Infdev** `20100227`~`20100325`
+
 # Releases
 * Just download from the [Releases](https://github.com/CreatorCSIE/InfdevPyramidLocater/releases).
 
