@@ -4,18 +4,20 @@
 
 **A way to find Minecraft Infdev Brick Pyramids with a simple algorithm.**
 
+### **Now it uses C++ to implement this function.**
+
 # Available in these versions
 * **Minecraft Infdev** `20100227`~`20100325`
 
-# Releases
+## Releases
 * Just download from the [Releases](https://github.com/CreatorCSIE/InfdevPyramidLocater/releases).
 
-* Run this program by `java -jar BrickLocater.jar` with Command Prompt.
+* Run this program by a single left click.
 
-# Build
+## Build
 Just download the source code, or use git clone.
 
-And compile it with Eclipse, IntelliJ IDEA or etc.
+And compile it with Visual Studio or other IDEs.
 
 I'm Chinese so the source code uses Chinese language, you can adapt it to your language.
 
