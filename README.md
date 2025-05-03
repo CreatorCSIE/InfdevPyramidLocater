@@ -17,6 +17,8 @@
 # Build
 Just download the source code, or use git clone.
 
+And edit the code with Python IDLE or other IDEs.
+
 I'm Chinese so the source code uses Chinese language, you can adapt it to your language.
 
 example (with git clone):
