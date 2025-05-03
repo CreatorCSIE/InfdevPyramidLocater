@@ -21,7 +21,7 @@ def is_valid_input(input_str):
     try:
         num = int(input_str)
         # 检查是否在合法范围内
-        if num > 2147483647 or num < -2147483648:
+        if num > 33554432 or num < 0:
             return False
         return True
     except ValueError:
