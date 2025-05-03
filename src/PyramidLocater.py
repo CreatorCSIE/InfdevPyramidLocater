@@ -1,3 +1,5 @@
+import os
+
 class JavaRandom:
     def __init__(self, seed):
         self.seed = (seed ^ 0x5DEECE66D) & ((1 << 48) - 1)
@@ -63,3 +65,4 @@ else:
         print("输入无效！请输入一个合法的整数！")
     else:
         find_nearest_pyramid(int(x), int(z))
+os.system("pause")
