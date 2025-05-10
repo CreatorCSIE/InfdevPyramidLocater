@@ -1,5 +1,7 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
+from datetime import datetime
+import os
 
 class JavaRandom:
     def __init__(self, seed):
@@ -18,10 +20,15 @@ class JavaRandom:
             if bits - val + (bound - 1) >= 0:
                 return val
 
+# 版本信息常量
+VERSION = "v1.4"
+FILE_HEADER = "Minecraft Infdev砖块金字塔坐标已保存列表 坐标格式为 (X,Y,Z)"
+FILENAME = "PyramidPosition.txt"
+
 def is_valid_input(input_str):
     try:
         num = int(input_str)
-        return -2147483648 <= num <= 2147483647
+        return 0 <= num <= 33554432
     except ValueError:
         return False
 
@@ -49,11 +56,37 @@ def find_nearest_pyramid(x, z):
                 nearestX, nearestZ = centerX, centerZ
 
     if min_distance < float('inf'):
-        return f"最近的砖块金字塔中心坐标是: ({nearestX}, {nearestZ})"
+        return (nearestX, nearestZ)
     else:
-        return "未找到符合条件的金字塔中心。"
+        return (None, None)
+
+def save_coordinates(x, z):
+    timestamp = datetime.now().strftime("%Y年%m月%d日 %H:%M")
+    
+    # 检查文件头
+    need_header = not os.path.exists(FILENAME)
+    if not need_header:
+        try:
+            with open(FILENAME, "r", encoding="utf-8") as f:
+                first_line = f.readline().strip()
+                need_header = first_line != FILE_HEADER
+        except:
+            need_header = True
+
+    try:
+        mode = "w" if need_header else "a"
+        with open(FILENAME, mode, encoding="utf-8") as f:
+            if need_header:
+                f.write(FILE_HEADER + "\n\n")
+            f.write(f"({x},128,{z})\n")
+            f.write(f"记录于{timestamp}\n\n")
+        return True
+    except Exception as e:
+        messagebox.showerror("保存失败", f"文件保存失败：{str(e)}")
+        return False
 
 def on_calculate():
+    global current_coords
     x = entry_x.get().strip()
     z = entry_z.get().strip()
 
@@ -61,36 +94,90 @@ def on_calculate():
         messagebox.showerror("错误", "请输入合法的整数坐标！")
         return
 
-    result = find_nearest_pyramid(int(x), int(z))
+    x_val = int(x)
+    z_val = int(z)
+    nearestX, nearestZ = find_nearest_pyramid(x_val, z_val)
+    
+    if nearestX is None:
+        result = "未找到符合条件的金字塔中心。"
+        current_coords = None
+        btn_save.config(state=tk.DISABLED)
+    else:
+        result = f"最近的砖块金字塔中心坐标是: ({nearestX}, {nearestZ})"
+        # 更新当前坐标
+        current_coords = (nearestX, nearestZ)
+        btn_save.config(state=tk.NORMAL)
+
     result_area.config(state=tk.NORMAL)
     result_area.delete(1.0, tk.END)
     result_area.insert(tk.END, result + "\n")
     result_area.config(state=tk.DISABLED)
 
-# GUI 构建
-root = tk.Tk()
-root.title("Minecraft Infdev砖块金字塔中心坐标查找器")
-root.geometry("500x300")
+def on_save():
+    global current_coords
+    if current_coords is None:
+        messagebox.showerror("错误", "请先进行计算再保存！")
+        return
+    
+    x, z = current_coords
+    try:
+        if save_coordinates(x, z):
+            # 显示明确的成功提示
+            messagebox.showinfo("保存成功", "坐标已成功保存至PyramidPosition.txt")
+        else:
+            messagebox.showerror("保存失败", "未知原因导致保存失败")
+    except Exception as e:
+        messagebox.showerror("保存错误", f"发生意外错误：{str(e)}")
 
-# 输入框
-frame_input = tk.Frame(root)
-tk.Label(frame_input, text="X 坐标:").grid(row=0, column=0, padx=5, pady=5)
-entry_x = tk.Entry(frame_input)
+# 初始化GUI
+root = tk.Tk()
+root.title(f"Minecraft Infdev砖块金字塔中心坐标查找器")
+root.geometry("500x400")
+root.resizable(False, False)
+
+# 输入框架
+frame_input = ttk.Frame(root, padding=10)
+frame_input.pack(fill=tk.X)
+
+ttk.Label(frame_input, text="请输入 X 坐标:").grid(row=0, column=0, padx=5, pady=5)
+entry_x = ttk.Entry(frame_input)
 entry_x.grid(row=0, column=1, padx=5)
 
-tk.Label(frame_input, text="Z 坐标:").grid(row=1, column=0, padx=5, pady=5)
-entry_z = tk.Entry(frame_input)
+ttk.Label(frame_input, text="请输入 Z 坐标:").grid(row=1, column=0, padx=5, pady=5)
+entry_z = ttk.Entry(frame_input)
 entry_z.grid(row=1, column=1, padx=5)
 
-frame_input.pack(pady=10)
+# 按钮框架
+frame_buttons = ttk.Frame(root, padding=10)
+frame_buttons.pack(fill=tk.X)
 
-# 按钮
-btn_calc = tk.Button(root, text="计算", command=on_calculate)
-btn_calc.pack()
+btn_calc = ttk.Button(frame_buttons, text="计算", command=on_calculate)
+btn_calc.pack(side=tk.LEFT, padx=5)
 
-# 结果输出
-result_area = tk.Text(root, height=8, width=45, state=tk.DISABLED)
-result_area.pack(pady=10)
+btn_save = ttk.Button(frame_buttons, text="保存坐标", command=on_save, state=tk.DISABLED)
+btn_save.pack(side=tk.LEFT, padx=5)
 
-# 启动主循环
+# 结果区域
+frame_result = ttk.Frame(root, padding=10)
+frame_result.pack(fill=tk.BOTH, expand=True)
+
+result_area = tk.Text(frame_result, height=8, width=45, state=tk.DISABLED)
+result_area.pack(fill=tk.BOTH, expand=True)
+
+# 版本信息
+frame_footer = ttk.Frame(root, padding=10)
+frame_footer.pack(fill=tk.X, side=tk.BOTTOM)
+
+info_panel = ttk.Frame(frame_footer)
+info_panel.pack(side=tk.RIGHT, anchor=tk.E)
+
+lbl_version = ttk.Label(info_panel, text=f"Made by CreatorCSIE", anchor=tk.E)
+lbl_version.pack(fill=tk.X, anchor=tk.E)
+
+lbl_author = ttk.Label(info_panel, text=f"版本：{VERSION}", anchor=tk.E)
+lbl_author.pack(fill=tk.X, anchor=tk.E)
+
+# 初始化坐标存储
+current_coords = None
+
 root.mainloop()
